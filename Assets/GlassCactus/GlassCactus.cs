@@ -1151,8 +1151,15 @@ public class GlassCactus : MonoBehaviour {
     {
         ModuleLog(true, "Received Twitch Plays Forced Solve");
 
-
         yield return null;
+
+        for (int i = currentExpectedIndexInSequence; i < 5; i ++)
+        {
+            yield return new WaitForSeconds(0.2f);
+
+            // expectedNextSpikePressed contains all acceptable spikes, just get the first one
+            spawnedSpikes[expectedNextSpikePressed[0]].OnInteract();
+        }
     }
 
 #pragma warning restore IDE0051 // Remove unused private members
