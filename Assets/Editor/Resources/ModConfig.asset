@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615501dbe4f3fe94fbf4b564abb10237, type: 3}
+  m_Name: ModConfig
+  m_EditorClassIdentifier: 
+  id: GlassCactus
+  title: Glass Cactus
+  author: thunder725
+  description: '"Modern Art really is becoming advanced."
+
+
+    Remove the spikes embedded in the Glass Cactus to release the trapped breeze.
+
+
+    Created by thunder725.
+
+    Manual can be found at https://ktane.timwi.de/
+
+
+    Includes Twitch Plays, Rule Seed, Colourblind and Souvenir support.
+
+
+    Original concept done during Moduletober 2026.
+
+
+    =-= Version History =-=
+
+    =-= 1.0
+
+    - Initial Release'
+  version: 1.0
+  outputFolder: build
+  debugBuild: 1
+  previewImage: {fileID: 2800000, guid: e16b70a2af5b6634f909cfc19e9473e6, type: 3}
