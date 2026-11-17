@@ -35,8 +35,18 @@ MonoBehaviour:
 
     =-= 1.0
 
-    - Initial Release'
-  version: 1.0
+    - Initial Release
+
+
+    =-= 1.0.1
+
+    - Added Colourblind Mode toggle command for TP
+
+
+    =-= 1.0.2
+
+    - Fixed Logging IDs on multiple bombs'
+  version: 1.0.2
   outputFolder: build
   debugBuild: 1
   previewImage: {fileID: 2800000, guid: e16b70a2af5b6634f909cfc19e9473e6, type: 3}

@@ -12,6 +12,7 @@ public class GlassCactus : MonoBehaviour {
     // Bomb Info Reference
     public KMAudio audioManager;
     public KMColorblindMode colorblindManager;
+    bool isColorblindModeActive;
     public KMRuleSeedable ruleseedManager;
     public KMBombModule thisModule;
     public KMSelectable moduleSelectable;
@@ -82,8 +83,6 @@ public class GlassCactus : MonoBehaviour {
 #pragma warning disable IDE0051 // Remove unused private members
     void Awake()
     {
-        moduleIdCounter = 1;
-
         // Randomize Cactus Colour
         cactusMeshRenderer.material.SetColor("_Color", Color.HSVToRGB(Random.value, Random.Range(0.4f, 0.9f), Random.Range(0.6f, 1f)));
 
@@ -690,14 +689,13 @@ public class GlassCactus : MonoBehaviour {
             // Set the Spike's Colour
             spawnedSpikes[i].GetComponent<MeshRenderer>().material.SetColor("_Color", spikeColours[(int)cactusGrid[i]]);
 
-            // Colourblind Text
-            GameObject ColourblindLetter = spawnedSpikes[i].transform.GetChild(1).gameObject;
-            ColourblindLetter.GetComponent<TextMesh>().text = cactusGrid[i].ToString()[0].ToString();
-            ColourblindLetter.SetActive(colorblindManager.ColorblindModeActive);
-
             // Setup its Selectable
             spawnedSpikes[i].Parent = moduleSelectable;
             moduleSelectable.Children.SetValue(spawnedSpikes[i], i);
+
+            // Colourblind Text, Set the text
+            GameObject ColourblindLetter = spawnedSpikes[i].transform.GetChild(1).gameObject;
+            ColourblindLetter.GetComponent<TextMesh>().text = cactusGrid[i].ToString()[0].ToString();
 
             // Setup the Interaction
             int u = i; // i gets updated, so we can't pass it in the interaction method or it'll stay at 32 for all of them, we need a clone
@@ -707,6 +705,9 @@ public class GlassCactus : MonoBehaviour {
         // Update the Children Properly!
         // Not improperly!!!
         moduleSelectable.UpdateChildrenProperly();
+
+        // Colourblind Text, Set visibility
+        ToggleColourblindMode(colorblindManager.ColorblindModeActive);
     }
 
     IEnumerator RemoveSingleSpikeCoroutine(Transform spikeToRemove)
@@ -966,6 +967,17 @@ public class GlassCactus : MonoBehaviour {
         breezeParticleSystem.gameObject.SetActive(false);
     }
 
+    void ToggleColourblindMode(bool newMode)
+    {
+        isColorblindModeActive = newMode;
+
+        for (int i = 0; i < 32; i ++)
+        {
+            GameObject ColourblindLetter = spawnedSpikes[i].transform.GetChild(1).gameObject;
+            ColourblindLetter.SetActive(isColorblindModeActive);
+        }
+    }
+
     // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     //    Other Methods
     // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -1026,7 +1038,7 @@ public class GlassCactus : MonoBehaviour {
     // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 #pragma warning disable IDE0051 // Remove unused private members
-    private readonly string TwitchHelpMessage = @"“!{0} Remove TL2 W3 BL4 B3 SE2” to remove those spikes. Coordinates allow TopLeft, BottomRight, NorthWest, SouthEast... For rows, they are numbered 1-4 from outermost to innermost. “!{0} Showspikes” to rotate the module to see Spikes.";
+    private readonly string TwitchHelpMessage = @"“!{0} Remove TL2 W3 BL4 B3 SE2” to remove those spikes. Coordinates allow TopLeft, BottomRight, NorthWest, SouthEast... For rows, they are numbered 1-4 from outermost to innermost. “!{0} Showspikes” to rotate the module to see Spikes. “!{0} Cb” to toggle Colourblind Mode.";
 
     IEnumerator ProcessTwitchCommand(string command)
     {
@@ -1071,6 +1083,16 @@ public class GlassCactus : MonoBehaviour {
             }
 
             // Bomb automatically resets to its starting rotation at the end
+            yield break;
+        }
+
+        if (commandParts[0] == "colorblind" || commandParts[0] == "colourblind" || commandParts[0] == "cb" || commandParts[0] == "color" || commandParts[0] == "colour")
+        {
+            // Mark the command as valid
+            yield return null;
+
+            // Toggle
+            ToggleColourblindMode(isColorblindModeActive ^ true);
             yield break;
         }
 
